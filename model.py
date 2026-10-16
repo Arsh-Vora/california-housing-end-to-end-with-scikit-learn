@@ -69,8 +69,13 @@ def add_ratio_features(df):
 
     return result
 
-# Step 6 - split_features_labels (not yet solved)
-# TODO: implement
+# Step 6 - split_features_labels
+def split_features_labels(df):
+    # TODO: Return (X without median_house_value, y = median_house_value Series).
+    X =df.drop("median_house_value", axis=1)
+    y=df["median_house_value"].copy()
+
+    return X,y
 
 # Step 7 - ClusterSimilarity (not yet solved)
 # TODO: implement
