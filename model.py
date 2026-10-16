@@ -124,9 +124,8 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder
 
 def categorical_pipeline():
-    # TODO: make_pipeline(SimpleImputer(most_frequent), OneHotEncoder(handle_unknown='ignore'))
     return make_pipeline(
-        SimpleImputer(strategy="most_frequent"),
+        SimpleImputer(missing_values=None, strategy="most_frequent"),
         OneHotEncoder(handle_unknown="ignore")
     )
 
