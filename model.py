@@ -300,6 +300,12 @@ def save_and_reload(model, path):
     joblib.dump(model, path)
     return joblib.load(path)
 
-# Step 22 - predict_new (not yet solved)
-# TODO: implement
+# Step 22 - predict_new
+import pandas as pd
+
+def predict_new(model, districts):
+    df = pd.DataFrame(districts)
+    df_with_ratios = add_ratio_features(df)
+    preds = model.predict(df_with_ratios)
+    return [float(round(p)) for p in preds]
 
