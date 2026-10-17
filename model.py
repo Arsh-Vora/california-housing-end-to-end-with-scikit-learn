@@ -273,8 +273,25 @@ def feature_importances(search, k=5):
     
     return [(round(float(imp), 3), str(name)) for imp, name in paired[:k]]
 
-# Step 20 - worst_errors (not yet solved)
-# TODO: implement
+# Step 20 - worst_errors
+import numpy as np
+import pandas as pd
+
+def worst_errors(model, df, k=5):
+    # Ensure ratio features exist if a raw test/val set is passed
+    if "rooms_per_house" not in df.columns:
+        df = add_ratio_features(df)
+        
+    X, y = split_features_labels(df)
+    y_pred = model.predict(X)
+    
+    errors_df = pd.DataFrame({
+        "actual": y,
+        "predicted": y_pred,
+        "abs_error": np.abs(y - y_pred)
+    })
+    
+    return errors_df.sort_values(by="abs_error", ascending=False).head(k)
 
 # Step 21 - save_and_reload (not yet solved)
 # TODO: implement
