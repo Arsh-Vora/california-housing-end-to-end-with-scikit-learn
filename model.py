@@ -236,8 +236,25 @@ def test_rmse(model, test_set):
     y_pred = model.predict(X_test)
     return float(rmse(y_test, y_pred))
 
-# Step 18 - bootstrap_rmse_ci (not yet solved)
-# TODO: implement
+# Step 18 - bootstrap_rmse_ci
+import numpy as np
+
+def bootstrap_rmse_ci(y_true, y_pred, n_boot=200, alpha=0.05, random_state=42):
+    y_true_arr = np.asarray(y_true, dtype=float)
+    y_pred_arr = np.asarray(y_pred, dtype=float)
+    n = len(y_true_arr)
+    
+    rng = np.random.default_rng(random_state)
+    boot_rmse = []
+    
+    for _ in range(n_boot):
+        idx = rng.integers(0, n, n)
+        boot_rmse.append(rmse(y_true_arr[idx], y_pred_arr[idx]))
+        
+    low = float(np.percentile(boot_rmse, 100 * (alpha / 2)))
+    high = float(np.percentile(boot_rmse, 100 * (1 - alpha / 2)))
+    
+    return low, high
 
 # Step 19 - feature_importances (not yet solved)
 # TODO: implement
