@@ -172,8 +172,25 @@ def dummy_baseline_rmse(X, y):
     y_pred = dummy.predict(X)
     return rmse(y, y_pred)
 
-# Step 13 - cross_val_rmse (not yet solved)
-# TODO: implement
+# Step 13 - cross_val_rmse
+import numpy as np
+from sklearn.model_selection import cross_val_score
+
+def cross_val_rmse(model, X, y, cv=3):
+    neg_scores = cross_val_score(
+        model, 
+        X, 
+        y, 
+        scoring="neg_root_mean_squared_error", 
+        cv=cv
+    )
+    rmse_scores = -neg_scores
+    
+    return {
+        "scores": [float(s) for s in rmse_scores],
+        "mean": float(np.mean(rmse_scores)),
+        "std": float(np.std(rmse_scores))
+    }
 
 # Step 14 - linear_model (not yet solved)
 # TODO: implement
