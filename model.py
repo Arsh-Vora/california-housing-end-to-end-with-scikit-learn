@@ -256,8 +256,22 @@ def bootstrap_rmse_ci(y_true, y_pred, n_boot=200, alpha=0.05, random_state=42):
     
     return low, high
 
-# Step 19 - feature_importances (not yet solved)
-# TODO: implement
+# Step 19 - feature_importances
+def feature_importances(search, k=5):
+    best_pipe = search.best_estimator_
+    
+    # First step is the preprocessing ColumnTransformer
+    preprocessor = best_pipe[0]
+    feature_names = preprocessor.get_feature_names_out()
+    
+    # Final step is the fitted RandomForestRegressor
+    forest = best_pipe[-1]
+    importances = forest.feature_importances_
+    
+    # Pair, sort descending, slice top-k, and round
+    paired = sorted(zip(importances, feature_names), key=lambda x: x[0], reverse=True)
+    
+    return [(round(float(imp), 3), str(name)) for imp, name in paired[:k]]
 
 # Step 20 - worst_errors (not yet solved)
 # TODO: implement
